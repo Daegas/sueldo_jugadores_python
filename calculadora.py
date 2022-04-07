@@ -29,56 +29,61 @@ total		48/50
 En el bono por equipo tendrían un alcance de 96% Luis tendría un alcance individual de 95% para un alcance total de 95.5% El suelo fijo de Luis es de 50,000.00 y su bono es de 10,000.00 por lo que su sueldo final será $59,550.00
 """
 
-import json 
 import numpy as np
 
-#Metas por nivel del jugador
-metas_niveles = {
-    'A': 5,
-    'B': 10,
-    'C': 15,
-    'Cuauh': 20}
 
-#Importar json
-data = json.load(open('jugadores.json', 'r'))
+def Calcular(metas_niveles, data):
+    #number of players
+    jugadores = []
+    n= len(data['jugadores'])
+    
+    #Arreglos
+    goles = []
+    metas = []
+    
+    ############################
+    #Calcular el total del equipo
+    for i in range(n):
+        jugador = data['jugadores'][i]
+        goles.append(jugador['goles'])
+        
+        #Buscar las metas en el equipo correspondiente
+        for j in range(len(metas_niveles['equipos'])):
+            equipo= metas_niveles['equipos'][j]
+            if(equipo['nombre'] == jugador['equipo']):   
+                metas.append(equipo[jugador['nivel']])    
+    p_grupal = sum(goles) /sum(metas)
+    ############################
+    
+    
+    #############################
+    #Calcular porcentaje individual
+    p_individual = np.divide(np.array(goles),np.array(metas))
+    #############################
 
-#number of players
-n= len(data['jugadores'])
+    
+    #############################
+    #Calcular bonos
+    sueldo = 0
+    for i in range(n):
+        jugador = data['jugadores'][i]
+        sueldo = jugador['sueldo']
+        p_total = (p_grupal + p_individual[i])/2
+        sueldo += jugador['bono'] * p_total
+        jugadores.append({
+            "nombre" : jugador['nombre'],
+            "goles_minimos" : metas[i],
+            "goles" : goles[i],
+            "sueldo" : jugador['sueldo'],
+            "bono" : jugador['bono'],
+            "sueldo_completo" : sueldo,
+            "equipo" : jugador['equipo']
+            })
+    #############################
 
-#Arreglo de coordenadas (anotados,meta) individual
-goles = []
-metas = []
+    return jugadores
+    
 
-#Calcular el total del equipo
-for i in range(n):
-    jugador = data['jugadores'][i]
-    goles.append(jugador['goles'])
-    metas.append(metas_niveles[jugador['nivel']]) 
-    
-p_grupal = sum(goles) /sum(metas)
-
-#Calcular porcentaje individual
-goles = np.array(goles)
-metas = np.array(metas)
-p_individual = np.divide(goles,metas)
-
-#Calcular bonos
-sueldo = 0
-for i in range(n):
-    jugador = data['jugadores'][i]
-    sueldo = jugador['sueldo']
-    p_total = (p_grupal + p_individual[i])/2
-    sueldo += jugador['bono'] * p_total
-    jugador['sueldo_completo']= sueldo
-    
-# Pretty Print JSON
-pretty = json.dumps(data, indent=4)
-print(pretty)    
-    
-    
-    
-    
-    
     
     
     
