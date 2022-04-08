@@ -1,37 +1,65 @@
-## Welcome to GitHub Pages
+## Problema
 
-You can use the [editor on GitHub](https://github.com/Daegas/sueldo_jugadores_python/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+El sueldo de los jugadores del Resuelve FC se compone de dos partes **un sueldo fijo** y **un bono variable**, la suma de estas dos partes es el sueldo de un jugador. El bono variable se compone de dos partes **meta de goles individual** y **meta de goles por equipo** cada una tiene un peso de 50%.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Tu programa deberá hacer el cálculo del sueldo de los jugadores del Resuelve FC.
 
-### Markdown
+### ¿Cómo se calculan los alcances de meta y bonos? 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+La meta individual de goles por jugador depende del nivel que tenga asignado:
 
-```markdown
-Syntax highlighted code block
+| Nivel |Goles/mes|
+| ------------- |:-------------:| 
+|A |5|
+|B |10|
+|C |15|
+|Cuauh |20|
 
-# Header 1
-## Header 2
-### Header 3
+Ejemplo:
+Los jugadores Juan, Pedro, Martín y Luis anotaron así durante el mes:
 
-- Bulleted
-- List
+| Jugador | Nivel |Goles anotados en el mes/mínimo requerido|
+| ------------- |:-------------:| :-----------: |
+|Juan | A |6/5|
+|Pedro | B |7/10|
+|Martín |C |16/15|
+|Luis | Cuauh |19/20|
+|  | | |
+| total |  |48/50|
 
-1. Numbered
-2. List
+En el bono por equipo tendrían un alcance de 96%
+Luis tendría un alcance individual de 95% para un alcance total de 95.5%
+El suelo fijo de Luis es de 50,000.00 y su bono es de 10,000.00 por lo que su sueldo final será $59,550.00
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+### Instalación
+En caso de no tener python, se recomienda seguir las instrucciones de la [página oficial de python](https://www.python.org/downloads/)
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+Una vez instalado se requiere instalar flask.
+`pip install flask`
 
-### Jekyll Themes
+# Clonar Repositorio
+`git clone git@github.com:Daegas/sueldo_jugadores_python.git`
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Daegas/sueldo_jugadores_python/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+# Correr la aplicación
+`python3 ./app.py`
 
-### Support or Contact
+Abrir el navegador para entrar a http://127.0.0.1:3000/
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Funcionamiento
+En el archivo jugadores.json se encuentran los datos de los jugadores que se desea calcular. Dichos datos se pueden obtener por la ruta: 
+`/jugadores`
+
+En el archivo equipos_metas se encuentran los datos de las metas de goles de acuerdo al nivel de cada jugador y su equipo correspondiente. Se puede obtener por la ruta:
+`/metas`
+
+La ruta que es más importante es `/calcular` que nos proporciona el cálculo del sueldo de cada jugador
+
+
+
+
+
+
+
+
+
